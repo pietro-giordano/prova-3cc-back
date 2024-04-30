@@ -70,15 +70,23 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
-        $task = Task::where('id', $id)->first();
+        try {
+            $task = Task::where('id', $id)->first();
 
-        $task->update($data);
+            $task->update($data);
 
-        return response()->json([
-            'success' => true,
-            'code' => 200,
-            'task' => $task,
-        ]);
+            return response()->json([
+                'success' => true,
+                'code' => 200,
+                'task' => $task,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -86,6 +94,22 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $task = Task::where('id', $id)->first();
+
+            $task->delete();
+
+            return response()->json([
+                'success' => true,
+                'code' => 200,
+                'task' => $task,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

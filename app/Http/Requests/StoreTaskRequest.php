@@ -23,7 +23,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => 'required|max:128',
-            'body' => 'nullable|string',
+            'description' => 'nullable',
         ];
     }
 }
